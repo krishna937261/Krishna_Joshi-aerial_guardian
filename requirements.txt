@@ -1,0 +1,27 @@
+# Aerial Guardian — requirements
+# Tested on Python 3.10
+
+# ── Core ──
+ultralytics>=8.2.0          # YOLOv8
+sahi>=0.11.15               # Sliced Inference
+opencv-python>=4.9.0        # Video I/O, optical flow
+numpy>=1.24.0
+
+# ── Tracker deps ──
+lap>=0.4.0                  # Linear Assignment (lapjv)
+scipy>=1.11.0
+filterpy>=1.4.5             # Kalman filter utilities (optional, we ship our own)
+
+# ── Evaluation ──
+motmetrics>=1.4.0           # MOT evaluation metrics
+
+# ── Export / edge ──
+onnx>=1.15.0
+onnxruntime>=1.17.0         # CPU inference without CUDA
+
+# ── Training ──
+pyyaml>=6.0
+tqdm>=4.66.0
+
+# ── Visualisation ──
+Pillow>=10.0.0

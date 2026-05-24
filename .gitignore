@@ -1,0 +1,14 @@
+venv/
+venv311/
+__pycache__/
+*.pyc
+*.pt
+*.onnx
+runs/
+outputs/
+weights/
+data/
+*.zip
+generate_report.js
+yolov8n.pt
+

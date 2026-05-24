@@ -1,0 +1,39 @@
+# Aerial Guardian — Default Pipeline Configuration
+# Override any value via CLI or by passing a custom yaml to the pipeline.
+
+# ─── Model ────────────────────────────────────────────────────────────────────
+model_path: weights/yolov8n_visdrone.pt   # YOLOv8n fine-tuned on VisDrone (persons)
+device: cpu                                # cpu | cuda | mps
+
+# ─── Detection ────────────────────────────────────────────────────────────────
+conf_threshold: 0.25    # Base confidence threshold; adaptive logic may lower this
+                         # for very small detections
+
+# SAHI (Slicing Aided Hyper Inference) — key for small objects at altitude
+use_sahi: true
+slice_height: 320        # Slice size (px). Smaller = better recall for tiny objects
+slice_width:  320        #   but slower. 320 is the sweet spot for 720p drone frames.
+overlap_ratio: 0.20      # Slice overlap ratio (20% is default; raise to 0.25 for
+                         #   dense crowds)
+
+# ─── Tracking ─────────────────────────────────────────────────────────────────
+track_thresh: 0.45       # Min confidence to initiate a new track
+track_buffer: 30         # Frames a lost track is kept alive (= ~1s at 30fps)
+match_thresh: 0.80       # IoU threshold for high-score association
+fps: 30                  # Used to set buffer size
+
+# ─── Ego-motion Compensation ──────────────────────────────────────────────────
+ego_motion_method: optical_flow   # optical_flow (fast) | ecc (accurate, ~3x slower)
+
+# ─── Visualisation ────────────────────────────────────────────────────────────
+tail_len: 30             # Number of past frames to draw as trajectory tail
+                         # Set to 0 to disable
+
+# ─── Edge Deployment Notes ────────────────────────────────────────────────────
+# For NVIDIA Jetson:
+#   device: cuda
+#   model_path: weights/yolov8n_visdrone.onnx   (fp16 ONNX, exported by fine_tune.py)
+#   slice_height: 256   (reduce slice size to stay within Jetson memory budget)
+#   slice_width:  256
+#   overlap_ratio: 0.15
+#   ego_motion_method: optical_flow   (ECC is too slow on Jetson without TRT)
